@@ -1,0 +1,4 @@
+User-agent: *
+Allow: /
+
+Sitemap: https://ginsonko.github.io/linglong/sitemap.xml

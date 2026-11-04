@@ -10,10 +10,10 @@ window.LL_CONFIG = {
     channel: ''
   },
   links: {
-    register: '',   // 注册页，例如 https://你的站点/register
-    login: '',      // 登录页
-    pricing: '',    // 实时价格页
-    recharge: '',   // 充值页
+    register: 'https://yinziapi.top/sign-up',
+    login: 'https://yinziapi.top/sign-in',
+    pricing: 'https://yinziapi.top/pricing',
+    recharge: 'https://yinziapi.top/wallet',
     support: '',    // 客服 / 联系方式页
     free_edition: 'https://github.com/ginsonko/omnicreator/releases'
   },

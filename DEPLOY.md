@@ -68,6 +68,13 @@ node scripts/shots.js           # 重新出整页截图（需先起本地预览�
 
 本地预览：`py -3 -m http.server 5408 --directory site`，打开 http://localhost:5408 。
 
+## 当前线上：GitHub Pages
+
+- 网址：https://ginsonko.github.io/linglong/ （仓库 `ginsonko/linglong`）
+- 发布方式：`.github/workflows/pages.yml`，推送到 `master` 且改动了 `site/` 时自动把 `site/` 发布上去；也可在 Actions 页面手动运行。
+- 更新步骤：本地改完 → `git commit` → `git push origin master`，一两分钟后生效。
+- 换成自有域名时：同步改 `site/robots.txt`、`site/sitemap.xml` 里的网址。
+
 ## 五、验收清单
 
 - [ ] 首页与故事页在手机、电脑上各打开一遍，逐屏过目
