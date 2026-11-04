@@ -3,7 +3,13 @@
          node scripts\shots.js [url]
 */
 const path = require('path');
-const { chromium } = require('playwright-core');
+let chromium;
+try {
+  ({ chromium } = require('playwright-core'));
+} catch (e) {
+  // NODE_PATH 偶尔不生效，且 worktree 的 node_modules 联接可能断，直接指主仓库实体
+  ({ chromium } = require('C:/Users/Administrator/Documents/Codex/omni-creator/node_modules/playwright-core'));
+}
 
 const BASE = process.argv[2] || 'http://127.0.0.1:5408';
 const OUT = process.argv[3] || 'I:\\omni-tmp\\v060\\site\\shots';
@@ -37,8 +43,9 @@ const EDGE = 'C:\\Program Files (x86)\\Microsoft\\Edge\\Application\\msedge.exe'
     console.log('home-1440-full.png');
     await page.close();
 
-    // 手机 390
-    page = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 2, isMobile: true, hasTouch: true });
+    // 手机 390。deviceScaleFactor 只能取 1：整页约 14000 CSS px，2 倍就是 28000 设备像素，
+    // 超过 Chrome 的 16384 像素表面上限，截图会回绕、把页首内容再画一遍
+    page = await browser.newPage({ viewport: { width: 390, height: 844 }, deviceScaleFactor: 1, isMobile: true, hasTouch: true });
     await page.goto(BASE + '/index.html', { waitUntil: 'networkidle' });
     await page.evaluate(() => new Promise(r => {
       let y = 0;
