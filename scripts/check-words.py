@@ -34,7 +34,15 @@ def scan():
                 continue
             path = os.path.join(dirpath, f)
             with open(path, encoding="utf-8") as fh:
+                in_style = False
                 for ln, line in enumerate(fh, 1):
+                    # CSS 不扫（会误伤 100%、Hiragino 之类）；site.css 内联进 HTML 后同样跳过
+                    if "<style" in line:
+                        in_style = True
+                    if in_style:
+                        if "</style>" in line:
+                            in_style = False
+                        continue
                     for w in WHITELIST:
                         line = line.replace(w, "")
                     line = ORDINAL.sub("", line)

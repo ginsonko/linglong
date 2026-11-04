@@ -7,7 +7,8 @@ cropped so the lettering the picture model added (sheet titles, the caption plat
 pose, the small「嘘～这是个小秘密」beside the chibi) stays out of frame; whatever survives as a
 separate blob next to the figure is dropped by keeping only the figure's own pixels.
 
-WebP always; AVIF as well when ffmpeg is around. Sizes stay at the sheet's own resolution:
+WebP only: every output here is a cut-out, and make-art.save skips AVIF for RGBA because the
+local ffmpeg/libaom build drops alpha (those AVIFs came out on an opaque background). Sizes stay at the sheet's own resolution:
 the sheets are 1024-1249 px wide for 4-16 drawings each, so the biggest honest width is a few
 hundred pixels — upscaling would only add blur, not detail.
 """
@@ -68,6 +69,10 @@ def cut(rgb, box, pad=8, keep=None, min_frac=0.0, **kw):
     if keep is not None:
         sub = keep[y0:y1, x0:x1] if keep.shape == rgb.shape[:2] else keep
         if sub.shape == rgba.shape[:2]:
+            # Pale skin is within the blob tolerance of the paper, so the blob has holes exactly
+            # where the face is; fill them, or the cheeks come out transparent. Real gaps inside
+            # the figure (between hair strands) are still cut by `cutout`'s own alpha.
+            sub = fill_holes(sub)
             # Grow the blob a hair so anti-aliased edges survive, then drop everything else.
             grown = cv2.dilate(sub.astype(np.uint8), np.ones((3, 3), np.uint8), iterations=1) > 0
             rgba[..., 3] = np.where(grown, rgba[..., 3], 0)
@@ -136,7 +141,9 @@ def birds(src, only, preview=""):
     for name, (box, widths) in BIRDS.items():
         if only and name not in only:
             continue
-        rgba = cut(rgb, box, pad=0, tol=12, band=3, min_gap=60, min_frac=0.04)
+        # 0.1, not 0.04: the cloud ornament under the「三日」title pokes into the front bird's box
+        # at about 5% of the bird's area.
+        rgba = cut(rgb, box, pad=0, tol=12, band=3, min_gap=60, min_frac=0.1)
         for p, s in save(rgba, name, widths):
             print(p, s)
         if preview:
@@ -145,10 +152,10 @@ def birds(src, only, preview=""):
 
 def fill_holes(mask):
     """Everything the mask encloses becomes part of the mask."""
-    inv = (1 - mask).astype(np.uint8)
-    ff = inv.copy()
-    cv2.floodFill(ff, np.zeros((inv.shape[0] + 2, inv.shape[1] + 2), np.uint8), (0, 0), 2)
-    return (mask > 0) | (ff != 2)
+    # The empty one-pixel frame keeps the flood seed outside even when the figure touches a corner.
+    ff = np.pad((mask == 0).astype(np.uint8), 1, constant_values=1)
+    cv2.floodFill(ff, np.zeros((ff.shape[0] + 2, ff.shape[1] + 2), np.uint8), (0, 0), 2)
+    return (mask > 0) | (ff[1:-1, 1:-1] != 2)
 
 
 def stickers(src, only, preview=""):
