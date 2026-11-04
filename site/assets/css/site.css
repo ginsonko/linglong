@@ -44,14 +44,14 @@ body {
   overflow-x: hidden;
 }
 body::before {
-  /* 细颗粒，电影感 */
+  /* 细颗粒，电影感。用静态贴图，不用 SVG feTurbulence（每次重绘都要现算，低端机很贵） */
   content: '';
   position: fixed;
   inset: 0;
   pointer-events: none;
   z-index: 1;
   opacity: .05;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='120' height='120'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.9' numOctaves='2'/%3E%3C/filter%3E%3Crect width='120' height='120' filter='url(%23n)' opacity='.6'/%3E%3C/svg%3E");
+  background-image: url('../img/noise.png');
 }
 ::selection { background: var(--red); color: #fff; }
 img { max-width: 100%; height: auto; }
@@ -173,7 +173,6 @@ h1 em { font-style: normal; color: var(--red-hi); text-shadow: 0 0 34px rgba(214
   position: absolute; bottom: -8%; left: 50%; transform: translateX(-50%);
   width: 130%; aspect-ratio: 1;
   background: radial-gradient(circle, rgba(180, 58, 46, .34), rgba(180, 58, 46, .08) 45%, transparent 68%);
-  filter: blur(6px);
 }
 .hero-girl {
   position: relative; z-index: 2;
