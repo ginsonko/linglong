@@ -110,6 +110,13 @@
         btn.innerHTML = '即将开放';
       }
       card.appendChild(btn);
+      if (d.url && d.alt_url) {
+        var alt = document.createElement('a');
+        alt.className = 'dl-alt';
+        alt.href = d.alt_url;
+        alt.textContent = d.alt_label || '备用下载';
+        card.appendChild(alt);
+      }
       dlGrid.appendChild(card);
     });
   }
