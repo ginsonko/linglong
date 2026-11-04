@@ -16,7 +16,7 @@
   --panel: #211a16;
   --ink: #f6f4ee;
   --ink-dim: rgba(246, 244, 238, .66);
-  --ink-faint: rgba(246, 244, 238, .42);
+  --ink-faint: rgba(246, 244, 238, .6);
   --line: rgba(246, 244, 238, .13);
   --red: #b43a2e;
   --red-hi: #d65a49;
@@ -264,8 +264,20 @@ h1 em { font-style: normal; color: var(--red-hi); text-shadow: 0 0 34px rgba(214
 /* 滚动动效：克制 */
 .js .reveal { opacity: 0; transform: translateY(26px); transition: opacity .7s ease, transform .7s cubic-bezier(.22,.8,.3,1); }
 .js .reveal.in { opacity: 1; transform: none; }
+/* 首屏只做位移入场、不从透明开始：opacity 0 的内容不算首次绘制，会拖慢 FCP/LCP */
+.hero-rise { animation: rise .9s cubic-bezier(.22,.8,.3,1) both; }
+.hero-copy .hero-rise:nth-child(2) { animation-delay: .06s; }
+.hero-copy .hero-rise:nth-child(3) { animation-delay: .12s; }
+.hero-copy .hero-rise:nth-child(4) { animation-delay: .18s; }
+.hero-copy .hero-rise:nth-child(5) { animation-delay: .24s; }
+.hero-card.hero-rise { animation-delay: .3s; }
+@keyframes rise {
+  from { transform: translateY(22px); }
+  to { transform: none; }
+}
 @media (prefers-reduced-motion: reduce) {
   .js .reveal { opacity: 1; transform: none; transition: none; }
+  .hero-rise { animation: none; }
   .hero-girl { animation: none; }
   .crew img { animation: none !important; }
   * { scroll-behavior: auto; }
@@ -487,7 +499,7 @@ details p { margin: 0; padding: 0 22px 20px; color: var(--ink-dim); font-size: 1
 .foot-in { display: grid; grid-template-columns: 1.2fr 2fr; gap: 40px; margin-bottom: 40px; }
 .foot-brand p { color: var(--ink-faint); font-size: 14px; margin: 14px 0 0; }
 .foot-links { display: grid; grid-template-columns: repeat(3, 1fr); gap: 20px; }
-.foot-links h4 { font-size: 13px; letter-spacing: .18em; color: var(--gold); margin: 0 0 14px; font-weight: 500; }
+.foot-links h3 { font-size: 13px; letter-spacing: .18em; color: var(--gold); margin: 0 0 14px; font-weight: 500; }
 .foot-links a { display: block; padding: 5px 0; font-size: 14px; color: var(--ink-dim); }
 .foot-links a:hover { color: var(--ink); }
 .foot-fine { font-size: 12.5px; color: var(--ink-faint); border-top: 1px solid var(--line); padding-top: 22px; }
