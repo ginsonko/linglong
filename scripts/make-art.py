@@ -140,6 +140,10 @@ def save(rgba, name, widths, quality=82):
 
 
 def avif(im, path):
+    if im.mode == "RGBA":
+        # 本机 ffmpeg 的 libaom-av1 编码时会悄悄丢掉 alpha（抠图会变成不透明底）。
+        # 在换用支持 alpha 的编码器（如 libavif 的 avifenc）之前，抠图只出 WebP。
+        return
     ff = shutil.which("ffmpeg")
     if not ff:
         return
