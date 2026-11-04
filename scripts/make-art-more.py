@@ -1,6 +1,6 @@
-"""More site art out of the concept sheets: 表情头像、Q 版动作、Q 版立绘。
+"""More site art out of the concept sheets: 表情头像、Q 版动作、喜鹊、贴纸。
 
-Usage: py -3 scripts/make-art-more.py [--src DIR] [--only a,b,c]
+Usage: py -3 scripts/make-art-more.py [--src DIR] [--only a,b,c] [--preview out.png]
 
 Sources live outside the repo (`C:\\Users\\Administrator\\outputs\\玲珑-概念图`). Every output is
 cropped so the lettering the picture model added (sheet titles, the caption plates under each
@@ -8,7 +8,7 @@ pose, the small「嘘～这是个小秘密」beside the chibi) stays out of fram
 separate blob next to the figure is dropped by keeping only the figure's own pixels.
 
 WebP always; AVIF as well when ffmpeg is around. Sizes stay at the sheet's own resolution:
-the sheets are 1024-1223 px wide for 4-12 drawings each, so the biggest honest width is a few
+the sheets are 1024-1249 px wide for 4-16 drawings each, so the biggest honest width is a few
 hundred pixels — upscaling would only add blur, not detail.
 """
 import argparse
@@ -29,16 +29,6 @@ _spec = importlib.util.spec_from_file_location("make_art", os.path.join(ROOT, "s
 make_art = importlib.util.module_from_spec(_spec)
 _spec.loader.exec_module(make_art)
 cutout, trim, save, load = make_art.cutout, make_art.trim, make_art.save, make_art.load
-
-
-def square(rgba, pad=6, min_side=0):
-    """Center the cut-out on a transparent square, so every size variant has a predictable name."""
-    h, w = rgba.shape[:2]
-    side = max(max(h, w) + pad * 2, min_side)
-    out = np.zeros((side, side, 4), np.uint8)
-    y, x = (side - h) // 2, (side - w) // 2
-    out[y:y + h, x:x + w] = rgba
-    return out
 
 
 def components(rgb, tol=24):
@@ -96,6 +86,21 @@ POSES = {
     "q-miss": (310, 915, 610, 1240),
 }
 
+# 「Q 版与三日」那张图上的大 Q 版背后压着花纹和纸扇，抠不干净，所以只取第三行那对木雕喜鹊
+# （背面干净、形状独立）；大 Q 版立绘留给主人挑一张干净底稿再说。宽度跟首页里写死的一致。
+BIRDS = {
+    "bird-front": ((25, 990, 215, 1196), [214, 140]),
+    "bird-side": ((200, 995, 470, 1198), [270, 140]),
+}
+
+# 「G-表情包16」是一张 4×4 的贴纸图，本身已经是透明底。每格里除了角色，还散着几个
+# 模型写上去的字（"妙啊""我认栽"之类），字都是独立的透明块，按面积筛掉即可。
+STICKER_COLS, STICKER_ROWS = 4, 4
+STICKER_NAMES = ["sticker-hush", "sticker-go", "sticker-nice", "sticker-yield",
+                 "sticker-hehe", "sticker-noted", "sticker-roger", "sticker-sleepy",
+                 "sticker-yay", "sticker-huh", "sticker-miss", "sticker-guess",
+                 "sticker-bye", "sticker-mail", "sticker-quiet", "sticker-ask"]
+
 
 def expressions(src, only):
     rgb = load(src("F-表情12.png"))
@@ -107,7 +112,7 @@ def expressions(src, only):
     for name, (area, x0, y0, x1, y1, mask) in zip(EXPRESSIONS, blobs):
         if only and name not in only:
             continue
-        rgba = square(cut(rgb, (x0, y0, x1, y1), pad=6, keep=mask), pad=4)
+        rgba = cut(rgb, (x0, y0, x1, y1), pad=6, keep=mask)
         for p, s in save(rgba, f"face-{name}", [240, 120]):
             print(p, s)
 
@@ -119,25 +124,43 @@ def poses(src, only):
             continue
         if sheet is None:
             sheet = load(src("G-桌宠动作12.png"))
-        rgba = square(cut(sheet, box, pad=0, tol=14, band=2, min_gap=40, min_frac=0.04), pad=4)
+        rgba = cut(sheet, box, pad=0, tol=14, band=2, min_gap=40, min_frac=0.04)
         for p, s in save(rgba, name, [280, 140]):
             print(p, s)
 
 
-# 「Q 版与三日」那张图上的三个小 Q 版背后压着花纹和纸扇，抠不干净，所以只取第三行那对木雕喜鹊
-# （背面干净、形状独立），大 Q 版立绘留给主人挑一张干净底稿再说。
-BIRDS = {"bird-front": (25, 990, 215, 1196), "bird-side": (200, 995, 470, 1198)}
+def birds(src, only, preview=""):
+    if only and not any(k in only for k in BIRDS):
+        return
+    rgb = load(src("G-Q版与三日.png"))
+    for name, (box, widths) in BIRDS.items():
+        if only and name not in only:
+            continue
+        rgba = cut(rgb, box, pad=0, tol=12, band=3, min_gap=60, min_frac=0.04)
+        for p, s in save(rgba, name, widths):
+            print(p, s)
+        if preview:
+            Image.fromarray(rgba, "RGBA").save(preview.replace(".png", f"-{name}.png"))
 
-# 「G-表情包16」是一张 4×4 的贴纸图，本身已经是透明底。每格里除了角色，还散着几个
-# 模型写上去的字（"妙啊""我认栽"之类），字都是独立的透明块，按面积筛掉即可。
-STICKER_COLS, STICKER_ROWS = 4, 4
-STICKER_NAMES = ["sticker-hush", "sticker-go", "sticker-nice", "sticker-yield",
-                 "sticker-hehe", "sticker-noted", "sticker-roger", "sticker-sleepy",
-                 "sticker-yay", "sticker-huh", "sticker-miss", "sticker-guess",
-                 "sticker-bye", "sticker-mail", "sticker-quiet", "sticker-ask"]
+
+def fill_holes(mask):
+    """Everything the mask encloses becomes part of the mask."""
+    inv = (1 - mask).astype(np.uint8)
+    ff = inv.copy()
+    cv2.floodFill(ff, np.zeros((inv.shape[0] + 2, inv.shape[1] + 2), np.uint8), (0, 0), 2)
+    return (mask > 0) | (ff != 2)
 
 
 def stickers(src, only, preview=""):
+    """Sticker sheet (transparent PNG): one cell per sticker, lettering removed.
+
+    Each sticker carries a white die-cut outline, and the lettering the model added sits on that
+    outline — touching the sticker, so a plain blob filter keeps it. What separates them is the
+    drawing itself: the figure (and the bird sitting on some of them) is the only ink blob that is
+    big; every glyph is a separate blob a few percent of that size. Keep the area the big blobs
+    enclose, grown a few pixels so the white die-cut edge survives, and the letters are gone while
+    each sticker stays whole.
+    """
     if only and not any(k in only for k in STICKER_NAMES):
         return
     im = Image.open(src("G-表情包16.png")).convert("RGBA")
@@ -150,34 +173,24 @@ def stickers(src, only, preview=""):
         cx, cy = i % STICKER_COLS, i // STICKER_COLS
         x0, y0 = int(round(cx * cw)), int(round(cy * ch))
         x1, y1 = int(round((cx + 1) * cw)), int(round((cy + 1) * ch))
-        cell = arr[y0:y1, x0:x1]
-        alpha = cell[..., 3]
-        n, lab, stats, _ = cv2.connectedComponentsWithStats((alpha > 8).astype(np.uint8), connectivity=8)
+        cell = arr[y0:y1, x0:x1].copy()
+        alpha, rgb = cell[..., 3], cell[..., :3]
+        opaque = alpha > 8
+        if not opaque.any():
+            continue
+        ink = ((alpha > 200) & (rgb.max(axis=2) < 230)).astype(np.uint8)
+        n, lab, stats, _ = cv2.connectedComponentsWithStats(ink, connectivity=8)
         if n <= 1:
             continue
         areas = stats[1:, cv2.CC_STAT_AREA]
-        keep = np.zeros(alpha.shape, bool)
+        figure = np.zeros(alpha.shape, bool)
         for j in range(1, n):
-            if stats[j, cv2.CC_STAT_AREA] >= areas.max() * 0.08:
-                keep |= lab == j
-        out = cell.copy()
-        out[..., 3] = np.where(keep, alpha, 0)
-        rgba = square(trim(out, pad=6), pad=4)
+            if stats[j, cv2.CC_STAT_AREA] >= areas.max() * 0.05:
+                figure |= lab == j
+        grown = cv2.dilate(fill_holes(figure).astype(np.uint8), np.ones((3, 3), np.uint8), iterations=8) > 0
+        cell[..., 3] = np.where(grown & opaque, alpha, 0)
+        rgba = trim(cell, pad=6)
         for p, s in save(rgba, name, [320, 160]):
-            print(p, s)
-        if preview:
-            Image.fromarray(rgba, "RGBA").save(preview.replace(".png", f"-{name}.png"))
-
-
-def birds(src, only, preview=""):
-    if only and not any(k in only for k in BIRDS):
-        return
-    rgb = load(src("G-Q版与三日.png"))
-    for name, box in BIRDS.items():
-        if only and name not in only:
-            continue
-        rgba = square(cut(rgb, box, pad=0, tol=12, band=3, min_gap=60, min_frac=0.04), pad=4)
-        for p, s in save(rgba, name, [280, 140]):
             print(p, s)
         if preview:
             Image.fromarray(rgba, "RGBA").save(preview.replace(".png", f"-{name}.png"))
