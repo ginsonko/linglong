@@ -3,11 +3,10 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<title>用户成功故事 · 程总（内容整理中） · 玲珑工坊</title>
-<meta name="description" content="玲珑工坊用户成功故事：程总篇。采访素材整理中，数字与原话经本人确认后发布。本页同时是后续所有成功故事的排版模板。">
+<title>程总：郑州的打版工位，交给了 AI · 用户成功故事 · 玲珑工坊</title>
+<meta name="description" content="一家开了将近 30 家网店的医护服饰企业，把打版交给 AI 远程操作、商品图改用 AI 生成。程总的背景、难处、用法、数字和原话。">
 <meta name="color-scheme" content="dark">
 <meta name="theme-color" content="#16120f">
-<meta name="robots" content="noindex">
 <link rel="icon" type="image/png" sizes="32x32" href="../assets/img/favicon-32.png">
 <!-- inline:site.css -->
 <style>
@@ -572,50 +571,64 @@ details p { margin: 0; padding: 0 22px 20px; color: var(--ink-dim); font-size: 1
 <style>
   /* 成功故事详情页专用 */
   .story-page { padding: 130px 0 90px; }
-  .story-hero { max-width: 780px; margin-bottom: 46px; }
+  .story-hero { max-width: 780px; margin-bottom: 40px; }
   .story-hero h1 { font-size: clamp(2rem, 4.6vw, 3.2rem); margin-top: 18px; }
   .story-hero .who { color: var(--ink-dim); margin-top: 16px; font-size: 15px; }
-  .pending-banner {
-    margin: 0 0 44px; padding: 18px 22px; border-radius: var(--radius);
-    border: 1px dashed rgba(201, 169, 106, .55); background: rgba(201, 169, 106, .08);
-    color: var(--gold); font-size: 14.5px; max-width: 780px;
+  .story-note {
+    margin: 0 0 48px; padding: 16px 20px; border-radius: var(--radius); max-width: 780px;
+    border: 1px solid rgba(201, 169, 106, .35); background: rgba(201, 169, 106, .07);
+    color: var(--ink-dim); font-size: 14.5px;
   }
+  .story-note b { color: var(--gold); font-weight: 500; }
   .story-body { max-width: 780px; }
-  .story-body section { margin-bottom: 44px; }
+  .story-body section { margin-bottom: 56px; }
   .story-body h2 {
-    font-size: 24px; margin-bottom: 14px; padding-left: 16px; position: relative;
+    font-size: 24px; margin-bottom: 16px; padding-left: 16px; position: relative;
   }
   .story-body h2::before {
     content: ''; position: absolute; left: 0; top: 6px; bottom: 6px; width: 3px;
     background: var(--red); border-radius: 2px;
   }
   .story-body h2 .no { color: var(--red-hi); margin-right: 10px; font-size: 18px; }
-  .slot {
-    border: 1px dashed rgba(246, 244, 238, .3); border-radius: var(--radius);
-    padding: 22px 24px; color: var(--ink-faint); font-size: 14.5px;
+  .story-body p { margin: 0 0 14px; color: var(--ink-dim); }
+  .story-body p b { color: var(--ink); font-weight: 500; }
+  .uses { list-style: none; margin: 0 0 30px; padding: 0; display: grid; gap: 12px; }
+  .uses li {
+    padding: 16px 20px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
+    color: var(--ink-dim); font-size: 15px;
   }
-  .slot b { color: var(--ink-dim); }
-  .slot ul { margin: 10px 0 0; padding-left: 1.3em; }
-  .slot li { margin: 4px 0; }
-  .quote-slot {
-    font-family: var(--font-display); font-size: 21px; line-height: 2; text-align: center;
-    padding: 40px 30px; color: var(--ink-faint);
+  .uses li b { display: block; color: var(--ink); font-family: var(--font-display); font-size: 17px; font-weight: 500; margin-bottom: 4px; }
+  .shot { margin: 0 0 26px; }
+  .shot img {
+    display: block; width: 100%; border-radius: 12px; border: 1px solid var(--line);
+    box-shadow: 0 18px 50px rgba(0, 0, 0, .45);
   }
-  .video-slot {
-    aspect-ratio: 16 / 9; display: flex; align-items: center; justify-content: center;
-    border: 1px dashed rgba(246, 244, 238, .3); border-radius: var(--radius);
-    color: var(--ink-faint); font-size: 14.5px;
+  .shot figcaption { margin-top: 10px; font-size: 13.5px; color: var(--ink-faint); }
+  .shot figcaption b { color: var(--gold); font-weight: 500; }
+  .stats { display: grid; grid-template-columns: repeat(2, 1fr); gap: 14px; margin: 0 0 18px; }
+  .stat {
+    padding: 20px 22px; background: var(--panel); border: 1px solid var(--line); border-radius: var(--radius);
   }
-  .materials {
-    max-width: 780px; margin-top: 56px; padding: 28px 30px;
-    border: 1px solid rgba(214, 90, 73, .4); border-radius: var(--radius);
-    background: linear-gradient(160deg, rgba(180, 58, 46, .12), var(--panel) 60%);
+  .stat-num { display: block; font-family: var(--font-display); font-size: 30px; line-height: 1.2; color: var(--red-hi); }
+  .stat-num small { font-size: 16px; color: var(--ink-dim); margin-left: 4px; }
+  .stat p { margin: 8px 0 0; font-size: 14px; }
+  .fine { font-size: 13.5px; color: var(--ink-faint); }
+  .quotes { display: grid; gap: 16px; margin: 0 0 14px; }
+  .quote {
+    margin: 0; padding: 22px 26px; border-radius: var(--radius);
+    background: linear-gradient(160deg, rgba(180, 58, 46, .13), var(--panel) 65%);
+    border-left: 3px solid var(--red);
   }
-  .materials h2 { font-size: 22px; margin-bottom: 6px; }
-  .materials .sub { color: var(--ink-faint); font-size: 13.5px; margin-bottom: 16px; }
-  .materials ol { margin: 0; padding-left: 1.4em; color: var(--ink-dim); font-size: 14.5px; }
-  .materials li { margin: 8px 0; }
-  .back-link { display: inline-block; margin-top: 50px; color: var(--gold); }
+  .quote p { margin: 0; font-family: var(--font-display); font-size: 19px; line-height: 1.85; color: var(--ink); }
+  .quote p::before { content: '「'; color: var(--red-hi); }
+  .quote p::after { content: '」'; color: var(--red-hi); }
+  .quote footer { margin-top: 10px; font-size: 13px; color: var(--ink-faint); }
+  .back-link { display: inline-block; margin-top: 20px; color: var(--gold); }
+  @media (max-width: 600px) {
+    .stats { grid-template-columns: 1fr; }
+    .quote { padding: 18px 18px; }
+    .quote p { font-size: 17px; }
+  }
 </style>
 </head>
 <body>
@@ -638,81 +651,96 @@ details p { margin: 0; padding: 0 22px 20px; color: var(--ink-dim); font-size: 1
 
     <div class="story-hero">
       <p class="eyebrow"><span class="dot" aria-hidden="true"></span>用户成功故事 · 第一篇</p>
-      <h1>程总：从一个人到一个团队</h1>
-      <p class="who">采访整理中 · 上线前经本人逐条确认 · 本篇标题为暂定</p>
+      <h1>程总：郑州的打版工位，<span style="white-space:nowrap">交给了 AI</span></h1>
+      <p class="who">程总 · 医护服饰网店企业负责人 · 根据 2026 年 11 月 3 日访谈整理</p>
     </div>
 
-    <p class="pending-banner">
-      本页内容尚未发布：程总的采访素材还在整理。下面每一节都是占位框，标注了这一节要放什么、需要谁提供什么。
-      <b>数字和原话未经本人确认前，一个字都不会写上去。</b>
+    <p class="story-note">
+      程总用的是<b>万能创作终端</b>（访谈里他叫它「万能终端」），也就是玲珑工坊的免费版。玲珑工坊是在它基础上做的商业版，下面说到的用法在工坊里同样能做。
     </p>
 
     <div class="story-body">
 
       <section aria-labelledby="s-bg">
         <h2 id="s-bg"><span class="no">01</span>背景</h2>
-        <div class="slot">
-          <b>要放什么：</b>程总是谁、做什么生意、团队多大、平时的工作流。两三段话。
-          <ul><li>待提供：一段自我介绍或简介（可采访转写）。</li></ul>
-        </div>
+        <p>程总做医护服饰，衣服主要供给医院，在网上开店卖。按他的说法，现在一共开了<b>将近 30 家店</b>：淘宝 10 家左右，抖音 10 到 11 家，另外还有拼多多。</p>
+        <p>医院的订单常常要在衣服上绣 logo，所以除了网店常见的运营、美工、客服，他们还得有专门打版、制版的人。</p>
       </section>
 
       <section aria-labelledby="s-pain">
         <h2 id="s-pain"><span class="no">02</span>难处</h2>
-        <div class="slot">
-          <b>要放什么：</b>用玲珑工坊之前卡在哪里：人手不够、外包贵、产能跟不上，还是别的。讲具体场景。
-          <ul><li>待提供：一两个印象最深「卡住」的具体例子。</li></ul>
-        </div>
+        <p>程总说，以前做电商，开销的大头是人。运营、美工、客服，再加上打版、制版，前前后后有七八种岗位。</p>
+        <p>打版放在郑州，<b>原来有八到十个打版工位</b>。衣服要改版、改尺寸，都得发到郑州，找专业打版师做。</p>
+        <p>商品图和视频靠外包拍摄，按他们的体量，<b>一年要三四十万</b>。店越开越多，每一家都要图、要上架、要有人盯着。</p>
       </section>
 
       <section aria-labelledby="s-how">
         <h2 id="s-how"><span class="no">03</span>怎么用</h2>
-        <div class="slot">
-          <b>要放什么：</b>用了玲珑工坊的哪些功能（团队 / 漫剧流水线 / 组建公司 / 局域网协作……），怎么上的手，现在每天怎么用。配 1～2 张使用截图。
-          <ul>
-            <li>待提供：功能清单与实际用法描述。</li>
-            <li>待提供：可公开的使用截图（隐去隐私信息）。</li>
-          </ul>
-        </div>
+        <ul class="uses">
+          <li><b>打版：让 AI 去操作打版软件</b>程总把公司做好的几万个版喂给 AI，让它远程操作公司里专门制版的那台电脑。打版软件不用另外装，改版、改尺寸由 AI 动手。前期他们还录了操作视频让 AI 学，这一块已经跑通。</li>
+          <li><b>做图：商品图改用 AI 生成</b>原来外包拍摄的活，正在换成 AI 生图，一张图的成本在一毛钱以内。</li>
+          <li><b>上架、接 ERP、盯店：分给不同的 AI 去做</b>程总说，打版只是他用到的一小部分。生图、生视频、做数据报表、接入 ERP、拉群做整个店铺的运维，这些活由 AI 分工去做。</li>
+        </ul>
+
+        <p>一支网店团队在玲珑工坊里大概是这样分工的。下面两张图是我们照着「做图、上架、多店盯店、打版」这几样活现场搭的示意团队：</p>
+
+        <figure class="shot">
+          <img src="../assets/img/stories/team-plan-780.webp"
+               srcset="../assets/img/stories/team-plan-780.webp 780w, ../assets/img/stories/team-plan-1068.webp 1068w"
+               sizes="(max-width: 840px) calc(100vw - 40px), 780px"
+               width="780" height="584" loading="lazy" decoding="async"
+               alt="组建 AI 公司的方案预览：团队名医护服饰运营队，岗位有运营中枢、视觉匠等，每个岗位写着职责、交付物、验收标准和交接方式">
+          <figcaption><b>示意：</b>在玲珑工坊里说一句「医护服饰网店：做图、上架、多店盯店、打版」，AI 起草出一支团队：运营中枢、视觉匠、上架管家、巡店雷达、版型师，每个岗位写清职责、交付物和验收标准，改好再确认组建。</figcaption>
+        </figure>
+
+        <figure class="shot">
+          <img src="../assets/img/stories/team-group-780.webp"
+               srcset="../assets/img/stories/team-group-780.webp 780w, ../assets/img/stories/team-group-1200.webp 1200w"
+               sizes="(max-width: 840px) calc(100vw - 40px), 780px"
+               width="780" height="741" loading="lazy" decoding="async"
+               alt="团队群聊：运营中枢把一款新品护士服的活拆成表格，列出上架管家、版型师、视觉匠、巡店雷达各自交什么、交给谁、什么时候交">
+          <figcaption><b>示意：</b>在团队群里 @运营中枢 派一款新品，它把做图、上架、巡店、改版拆给各个岗位，交什么、交给谁、几点交，一张表列清楚；改价、发布这类事要你点头才做。</figcaption>
+        </figure>
+        <p class="fine">这两张是示意截图，不是程总公司的实际界面。起草方案加上这条回复，模型花费合计不到 ¥0.01。</p>
       </section>
 
       <section aria-labelledby="s-numbers">
         <h2 id="s-numbers"><span class="no">04</span>结果数字</h2>
-        <div class="slot">
-          <b>要放什么：</b>前后对比的硬数字，例如：同样的活，以前要多久、现在要多久；每月省下或多出多少。只写程总本人确认过、同意公开的数字。
-          <ul><li>待提供：本人确认过的数字与口径。</li></ul>
+        <div class="stats">
+          <div class="stat"><span class="stat-num">8–10 个<small>打版工位</small></span><p>郑州原有的打版工位，由 AI 接手；郑州办公室今年撤了，房租收回。</p></div>
+          <div class="stat"><span class="stat-num">0.08–0.1<small>元 / 张</small></span><p>AI 生成一张商品图的成本。</p></div>
+          <div class="stat"><span class="stat-num">30–40 万<small>元 / 年</small></span><p>原来外包拍摄一年的花费，正在由 AI 生图替代。</p></div>
+          <div class="stat"><span class="stat-num">约 30<small>家店</small></span><p>淘宝约 10 家、抖音 10–11 家，另有拼多多。</p></div>
+          <div class="stat"><span class="stat-num">约 1100 万<small>元</small></span><p>2026 年 1–8 月企业销售额。</p></div>
+          <div class="stat"><span class="stat-num">200 多万<small>元</small></span><p>新开的抖音渠道相关销售额。</p></div>
         </div>
+        <p class="fine">以上数字均为客户访谈陈述，尚未与后台报表逐项核对。销售额是程总企业的整体销售额，不是玲珑工坊的收入，也不全是 AI 带来的增量。</p>
       </section>
 
       <section aria-labelledby="s-quote">
-        <h2 id="s-quote"><span class="no">05</span>原话</h2>
-        <div class="quote-slot">
-          「本人原话，从采访录音转写，经本人确认后放在这里。」
+        <h2 id="s-quote"><span class="no">05</span>程总原话</h2>
+        <div class="quotes">
+          <blockquote class="quote">
+            <p>我们之前做电商，很大的成本支出一个是人工的成本：你要请运营、请美工、请客服，还要有打版的工作。因为我们衣服是供给医院的，医院需要绣 logo。</p>
+          </blockquote>
+          <blockquote class="quote">
+            <p>用了万能终端，我发现它里面的东西很全，真的能做出来实际的产出的东西。</p>
+          </blockquote>
+          <blockquote class="quote">
+            <p>我们衣服要制版，之前的操作模式都是发到郑州找专业打版师。用了万能终端之后，直接也是远程……做衣服的改版、改尺寸，任何不满意的地方，AI 全部都是能参与进去。</p>
+          </blockquote>
+          <blockquote class="quote">
+            <p>我们当然也会前期做数据、录视频，让 AI 自己学习，这一块我们是已经跑通了。</p>
+          </blockquote>
+          <blockquote class="quote">
+            <p>按体量，我们去重新拍照，一年没有 30 万到 40 万是下不来的。</p>
+          </blockquote>
         </div>
+        <p class="fine">—— 程总，11 月 3 日访谈录音转写（整理）。只做了标点和口语赘词的轻度整理。</p>
       </section>
 
-      <section aria-labelledby="s-video">
-        <h2 id="s-video"><span class="no">06</span>视频</h2>
-        <div class="video-slot">
-          采访或实操录屏位（可选）。视频不自动加载，先显示封面，点击才播放。
-        </div>
-      </section>
+      <!-- 06 视频：等采访片段或操作录屏到位后再加；没有素材前不显示这一节 -->
 
-    </div>
-
-    <div class="materials">
-      <h2>需要主人提供的材料清单</h2>
-      <p class="sub">收齐后按上面六节填入即可上线；后续外贸公司、漫剧团队、学生、科研四篇复用本页模板。</p>
-      <ol>
-        <li>程总的采访录音或聊天记录（用于转写初稿）。</li>
-        <li>可公开的背景介绍：行业、生意、团队规模。</li>
-        <li>「难处」的具体例子一到两个。</li>
-        <li>实际用到的功能与用法，以及可公开的截图 1～2 张。</li>
-        <li>结果数字：指标、口径、起止时间，需本人确认。</li>
-        <li>同意公开的原话（转写后给本人过目）。</li>
-        <li>视频素材（可选）：采访片段或操作录屏。</li>
-        <li>书面授权：同意以成功故事形式公开发布，留底。</li>
-      </ol>
     </div>
 
     <a class="back-link" href="../index.html#stories">← 返回首页的用户故事</a>
